@@ -19,4 +19,16 @@ Details - SP Pull:
 			ii) Identity fields that need to be in the export, but are not of the appropriate type will be added as "ZZ_" fields, with a computed field used for the extract.
 	2) User creates code to populate the extract tables.
 	3) Canned code is added that will read the table(s) and create the text lines for extract; which is inserted into an ordered table as a BLOB.
-	    a) 
+	NOTE: There will be multiple scripts that can be used that cover (allow for automation) some of the more unique file formats.
+	    a) "ZZ_" fields will be ignored
+		b) entry variables will define text formatting options
+			i) this is to make the majority of the extracts easily, but will allow more flexibility than SSIS. Will replicate the SSIS formatting options.
+			ii) Since lines are created with code, it allows programmer ability to create custom modifications.
+			iii) add headers will be a format option.  Header row(s) will have its own header format
+		c) Export table will contain file name(s), line numbers (for sorting).
+
+Details - SSIS Package
+	1) SSIS package will be simple and universal. 
+		a) Package will be created from a template.
+		b) Package will consist of an Execute SQL, which executes the SP that pulls the data and puts it into the Export table.
+		c) Package will use a ForEach loop to create each export file.
